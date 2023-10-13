@@ -1,0 +1,39 @@
+#set application port number
+server:
+  port: 4050
+
+#set application name to be displayed in our serviceRegistryApplication if we are not wriiten application name then it is UNKNOWN showing in serviceRegistryApplication
+#Setting related to API-Gateway Routing
+spring:
+  application:
+    name: API-Gateway-Uber
+  cloud:
+    gateway:
+      routes:
+      - id: UBERUSER-SERVICE
+        uri: lb://UBERUSER-SERVICE
+        predicates:
+        - Path=/User/**
+        
+      - id: UBERDRIVER-SERVICE
+        uri: lb://UBERDRIVER-SERVICE
+        predicates:
+        - Path=/Driver/**
+      
+      - id: UBERPRIVILEDGE-SERVICE
+        uri: lb://UBERPRIVILEDGE-SERVICE
+        predicates:
+        - Path=/Priviledge/**
+
+#set your application at Eureka ServiceRegistryApplication    
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    
+#Setting related to API-Gateway Routing
+    
